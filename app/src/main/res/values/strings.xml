@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Review Game</string>
+
+    <string name="add_theme">Add Theme</string>
+    <string name="q_amp_a"><![CDATA[Q&A]]></string>
+    <string name="start_review">Start Review</string>
+    <string name="review_app">REVIEW APP</string>
+</resources>
