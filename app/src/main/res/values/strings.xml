@@ -5,4 +5,6 @@
     <string name="q_amp_a"><![CDATA[Q&A]]></string>
     <string name="start_review">Start Review</string>
     <string name="review_app">REVIEW APP</string>
+    <string name="save_subject">Save Subject</string>
+    <string name="type_subject_here">Type subject here...</string>
 </resources>
