@@ -13,6 +13,5 @@ class AddSubject : AppCompatActivity() {
         val addThemeSubject: Button = findViewById(R.id.saveSubject)
         val subjectType: TextInputEditText = findViewById(R.id.subjectType)
 
-
     }
 }
