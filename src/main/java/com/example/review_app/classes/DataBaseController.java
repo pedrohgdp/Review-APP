@@ -1,4 +1,4 @@
-package com.example.review_app.Classes;
+package com.example.review_app.classes;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ public class DataBaseController {
 
     //ADD SUBJECT ON DATABASE AND HEAP (PriorityQueue)
     public void addSubject(String name){
-        String addSubjectQuery = "INSERT INTO subjects (name, datePlaced, alreadyReviewed, wrongsQuestions) VALUES (?, ?, ?, ?);";
+        String addSubjectQuery = "INSERT INTO subjects (name, datePlaced, wrongsQuestions) VALUES (?, ?, ?);";
         try(Connection conn = DriverManager.getConnection(URL)){
             // We set the values for the '?' placeholders in the prepared statement.
             PreparedStatement prepSt = conn.prepareStatement(addSubjectQuery);
@@ -42,13 +42,13 @@ public class DataBaseController {
     //Query to remove the object
     public void removeSubject(String name){
         String deleteSubjectQuery = "DELETE FROM subjects WHERE name = ?";
-        try(Connection conn = DriverManager.getConnection(URL)){
-            PreparedStatement prepSt = conn.prepareStatement(deleteSubjectQuery);
-            prepSt.setString(1, name);
-            prepSt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            try(Connection conn = DriverManager.getConnection(URL)){
+                PreparedStatement prepSt = conn.prepareStatement(deleteSubjectQuery);
+                prepSt.setString(1, name);
+                prepSt.executeUpdate();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
     }
 
     // Loads all subjects from the database into the PriorityQueue, typically when the app starts.
@@ -62,17 +62,27 @@ public class DataBaseController {
                 Subject subject = new Subject();
                 subject.setName(rs.getString("name"));
                 subject.setDate(rs.getString("datePlaced"));
-                if(rs.getInt("alreadyReviewed") == 1){
-                    subject.setAlreadyReviewed("True");
-                }else{
-                    subject.setAlreadyReviewed("False");
-                }
                 subject.setWrongsQuestions(rs.getInt("wrongsQuestions"));
                 priorityQueue.add(subject);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void updateSubject(Subject subject) {
+        String sql = "UPDATE subjects SET wrongsQuestions = ? WHERE name = ?";
+
+        try(Connection conn = DriverManager.getConnection(URL)){
+            // We set the values for the '?' placeholders in the prepared statement.
+            PreparedStatement prepSt = conn.prepareStatement(sql);
+            prepSt.setDouble(1, subject.getWrongsQuestions());
+            prepSt.setString(3, subject.getName());
+            prepSt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

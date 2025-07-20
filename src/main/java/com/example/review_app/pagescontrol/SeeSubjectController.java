@@ -1,7 +1,7 @@
-package com.example.review_app.PagesController;
+package com.example.review_app.pagescontrol;
 
-import com.example.review_app.Classes.DataBaseController;
-import com.example.review_app.Classes.Subject;
+import com.example.review_app.classes.DataBaseController;
+import com.example.review_app.classes.Subject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,10 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Objects;
 
 //Controller for see subject page
-public class seeSubjectController {
+public class SeeSubjectController {
     //Create fxml things
     @FXML
     private Button returnButton;
@@ -23,12 +22,8 @@ public class seeSubjectController {
     private ListView listViewArea = new ListView<String>();
     //End
 
-    //Objects
-    DataBaseController db_controller = new DataBaseController();
-    //End
-
-
     //Method that initialize the fillListView Method and make the text in listViewArea clickable
+    //After everything create initialize is started automatically
     @FXML
     private void initialize() {
         System.out.println("Method was been called");
@@ -64,7 +59,7 @@ public class seeSubjectController {
 
                     //CALLBACK
                     //Define subInfController a sun controller
-                    subjectInfoController subInfController = loader.getController();
+                    SubjectInfoController subInfController = loader.getController();
 
                     //We call the setParentController of subjectInfoController
                     subInfController.setParentController(this);
@@ -78,11 +73,6 @@ public class seeSubjectController {
                     Scene newScene = new Scene(root, 321, 274);
                     newStage.setScene(newScene);
                     newStage.show();
-
-
-                    //Call the function that put subjectName in subjectInfoController
-                    subInfController.alterSubjectName(selectedItem);
-                    subInfController.loadSubjectDate(selectedItem);
                 }
             }
         });
@@ -93,7 +83,7 @@ public class seeSubjectController {
     @FXML
     private void returnButtonOnClick() throws IOException {
         Stage stage = (Stage) returnButton.getScene().getWindow();
-        FXMLLoader seeFxml = new FXMLLoader(seeSubjectController.class.getResource("/com/example/review_app/main_page.fxml"));
+        FXMLLoader seeFxml = new FXMLLoader(SeeSubjectController.class.getResource("/com/example/review_app/main_page.fxml"));
         Scene scene = new Scene(seeFxml.load(), 500, 400);
         stage.setTitle("Main Page!");
         stage.setScene(scene);

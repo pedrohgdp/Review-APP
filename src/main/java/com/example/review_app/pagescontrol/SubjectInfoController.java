@@ -1,13 +1,13 @@
-package com.example.review_app.PagesController;
+package com.example.review_app.pagescontrol;
 
-import com.example.review_app.Classes.DataBaseController;
-import com.example.review_app.Classes.Subject;
+import com.example.review_app.classes.DataBaseController;
+import com.example.review_app.classes.Subject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class subjectInfoController {
+public class SubjectInfoController {
     @FXML
     private Button deleteButton;
     @FXML
@@ -22,10 +22,10 @@ public class subjectInfoController {
     DataBaseController db_controller = new DataBaseController();
 
     //We create a father object
-    private seeSubjectController parentController;
+    private SeeSubjectController parentController;
 
     //Create a method to set the father of that class
-    public void setParentController(seeSubjectController parentController){
+    public void setParentController(SeeSubjectController parentController){
         this.parentController = parentController;
     }
 
@@ -56,10 +56,9 @@ public class subjectInfoController {
         for(Subject subject : DataBaseController.priorityQueue){
             if(subject.getName().equals(name)){
                 dateLabel.setText("Date placed: " + subject.getDate());
-                alreadyReviewLabel.setText("Already review: " + subject.getAlreadyReviewed());
                 questionsWrong.setText("Wrongs questions: " + subject.getWrongsQuestions());
+                break;
             }
-            break;
         }
     }
 

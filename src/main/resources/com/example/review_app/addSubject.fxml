@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="274.0" prefWidth="321.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.review_app.PagesController.addSubjectController">
+<AnchorPane prefHeight="274.0" prefWidth="321.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.review_app.pagescontrol.AddSubjectController">
    <children>
       <Button fx:id="sendButton" layoutX="106.0" layoutY="183.0" mnemonicParsing="false" onAction="#sendButtonOnClick" prefHeight="54.0" prefWidth="104.0" style="-fx-background-color: #5e0b9e;" text="Send" textFill="WHITE" />
       <TextField fx:id="enterSubjectArea" layoutX="15.0" layoutY="61.0" prefHeight="48.0" prefWidth="285.0" promptText="Enter the subject" />

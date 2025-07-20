@@ -1,8 +1,8 @@
-package com.example.review_app.PagesController;
+package com.example.review_app.pagescontrol;
 
-import com.example.review_app.Classes.DataBaseController;
-import com.example.review_app.Classes.Subject;
-import com.example.review_app.Classes.Timer;
+import com.example.review_app.classes.DataBaseController;
+import com.example.review_app.classes.Subject;
+import com.example.review_app.classes.Timer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 
 
@@ -35,10 +34,13 @@ public class MainPageController {
     private Button addObjectsButton;
 
     private boolean buttonClicked = true;
+    private Double majorNumber;
+    private String nameSubjectMajorNumber;
+    Subject subject;
     //END VARIABLE
 
     //OBJECTS
-    Timer timerController;
+    Timer timerController = new Timer();
     //END OBJECTS
 
     //Everything here is executable once when fxml where that controller is associate runs
@@ -46,13 +48,13 @@ public class MainPageController {
     public void initialize(){
         //Set label timer invisivel
         timer.setVisible(false);
-        timerController = new Timer(timer);
+        timerController.configureTime(timer);
     }
 
 
     @FXML
     private void startButtonOnClick(){
-        if(buttonClicked == true){
+        if(buttonClicked){
             timerController.start();
             timer.setVisible(true);
             startReviewButton.setText("Stop review");
@@ -72,7 +74,7 @@ public class MainPageController {
     private void seeButtonOnClick() throws IOException {
        Stage stage = (Stage) seeSubjectButton.getScene().getWindow();
        FXMLLoader seeFxml = new FXMLLoader(MainPageController.class.getResource("/com/example/review_app/see_subject.fxml"));
-       Scene scene = new Scene(seeFxml.load(), 500, 400);
+       Scene scene = new Scene(seeFxml.load(), 700, 700);
        stage.setTitle("See Subjects!");
        stage.setScene(scene);
        stage.show();
@@ -98,22 +100,25 @@ public class MainPageController {
     //So i will use worngsquestion like a weight
     @FXML
     private void sortSubjectOnClick(){
-        Double majorNumber = -1.0;
-        String nameSubjectMajorNumber = "";
         double size = DataBaseController.priorityQueue.size();
+        this.majorNumber = -1.0;
+        this.nameSubjectMajorNumber = "";
+        this.subject = null;
 
-        for(Subject subject : DataBaseController.priorityQueue){
+
+        for(Subject currentSubject : DataBaseController.priorityQueue){
             double elpson = 0.1;
             double random = Math.random() + elpson;
             double weight = random * size;
-            subject.setWeight(weight);
+            currentSubject.setWeight(weight);
             // Divide by size for normalization,
             // because if we don't normalize, when there are many wrong questions,
             // the algorithm may become more biased (tendencioso ) for subjects with many errors
-            if((weight + subject.getWrongsQuestions()) / size > majorNumber){
-                majorNumber = (subject.getWeight() + subject.getWrongsQuestions()) / size;
-                nameSubjectMajorNumber = subject.getName();
+            if((weight + currentSubject.getWrongsQuestions()) / size > majorNumber){
+                majorNumber = (currentSubject.getWeight() + currentSubject.getWrongsQuestions()) / size;
+                nameSubjectMajorNumber = currentSubject.getName();
                 System.out.println("Subject selecioned");
+                this.subject = currentSubject;
             }
         }
         System.out.println(nameSubjectMajorNumber);
@@ -121,6 +126,26 @@ public class MainPageController {
         subjectSorted.setText(nameSubjectMajorNumber);
     }
 
+    @FXML
+    private void qAndAButtonOnClick() throws IOException{
+        FXMLLoader seeFxml = new FXMLLoader(MainPageController.class.getResource("/com/example/review_app/q_and_a.fxml"));
+        Stage stage = (Stage) qAndAButton.getScene().getWindow();
+        Scene scene = new Scene(seeFxml.load(), 700, 700);
+        QuestionAndAnswerController controllerQuestionsAndAnswer = seeFxml.getController();
+        controllerQuestionsAndAnswer.loadAnswers(this.subject);
+
+        stage.setTitle("See Subjects!");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public String getNameSubjectMajorNumber() {
+        return nameSubjectMajorNumber;
+    }
+
+    public void setNameSubjectMajorNumber(String nameSubjectMajorNumber) {
+        this.nameSubjectMajorNumber = nameSubjectMajorNumber;
+    }
 
     //TOMORROW IA API AN SEND THAT TO IA GERANDO UM JSON
     //VER NO RIO GSON

@@ -1,18 +1,18 @@
-package com.example.review_app.PagesController;
+package com.example.review_app.pagescontrol;
 
-import com.example.review_app.Classes.DataBaseController;
+import com.example.review_app.classes.DataBaseController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class addSubjectController {
+public class AddSubjectController {
     @FXML
     TextField enterSubjectArea;
     @FXML
     Button sendButton;
 
-    DataBaseController db_controller = new DataBaseController();
+    DataBaseController dbController = new DataBaseController();
 
     //add a new object and subject on db
     @FXML
@@ -28,7 +28,7 @@ public class addSubjectController {
         }else{
             //No we try crate the object and subject on db
             try{
-                db_controller.addSubject(subjectName);
+                dbController.addSubject(subjectName);
                 Alert alertOk = new Alert(Alert.AlertType.CONFIRMATION);
                 alertOk.setTitle("Subject added");
                 alertOk.setContentText("The subject was added to the database successfully.");

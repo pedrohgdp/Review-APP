@@ -1,4 +1,4 @@
-package com.example.review_app.Classes;
+package com.example.review_app.classes;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -11,21 +11,20 @@ import javafx.util.Duration;
 public class Timer {
     //Variables
     //Timeline is something that run ins thread of UI
-    final Timeline time_line = new Timeline();
+    final Timeline timeLine = new Timeline();
     private Integer seconds = 0;
     private Integer minutes = 0;
     //I create a label for put my label for update
     private Label labelTime;
 
-    //This is a constructor of my class
-    public Timer(Label labelOfMyClass){
+    public void configureTime(Label labelOfMyClass){
         //I will pass my label in main_page for that function
         //And label in that class became the label of main_page
         labelTime = labelOfMyClass;
         //KeyFrame is something that can run in TimeLine and we can set a seconds to that happen
         //Like that is executed and 1 second before is executed again
         //KeyFrame have duration argument and a action
-         KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
             //The action is count the seconds and minutes and update the label text
             if(seconds == 59){
                 minutes++;
@@ -40,22 +39,21 @@ public class Timer {
         });
         //We send your keyframe to timeline
         //And set INDEFINITE for run as much as we want
-        time_line.getKeyFrames().add(keyFrame);
-        time_line.setCycleCount(Animation.INDEFINITE);
-
-
+        timeLine.getKeyFrames().add(keyFrame);
+        timeLine.setCycleCount(Animation.INDEFINITE);
     }
+
 
     //Functions for start and stop the timeline
     public void start(){
         System.out.println("contando");
         seconds = 0;
-        time_line.play();
+        timeLine.play();
     }
 
     public void stop(){
         System.out.println("parando contagem");
-        time_line.stop();
+        timeLine.stop();
     }
 }
 

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="root" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.review_app.PagesController.subjectInfoController">
+<AnchorPane fx:id="root" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.review_app.pagescontrol.SubjectInfoController">
    <children>
       <Button fx:id="deleteButton" layoutX="14.0" layoutY="150.0" mnemonicParsing="false" onAction="#deleteButtonOnClick" prefHeight="36.0" prefWidth="126.0" style="-fx-background-color: #5e0b9e;" text="Delete Subject" textFill="WHITE" />
       <Label fx:id="dateLabel" layoutX="20.0" layoutY="14.0" prefHeight="36.0" prefWidth="196.0" text="Date Placed:" />

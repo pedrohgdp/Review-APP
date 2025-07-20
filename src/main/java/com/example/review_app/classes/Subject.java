@@ -1,4 +1,4 @@
-package com.example.review_app.Classes;
+package com.example.review_app.classes;
 
 
 public class Subject implements Comparable<Subject>{
@@ -9,7 +9,6 @@ public class Subject implements Comparable<Subject>{
 
     private String name;
     private String date;
-    private String alreadyReviewed;
     private double wrongsQuestions;
     private double weight;
 
@@ -39,14 +38,6 @@ public class Subject implements Comparable<Subject>{
         this.date = date;
     }
 
-    public String getAlreadyReviewed() {
-        return alreadyReviewed;
-    }
-
-    public void setAlreadyReviewed(String alreadyReviewed) {
-        this.alreadyReviewed = alreadyReviewed;
-    }
-
     public double getWrongsQuestions() {
         return wrongsQuestions;
     }
@@ -68,7 +59,6 @@ public class Subject implements Comparable<Subject>{
         return "Subject{" +
                 "name='" + name + '\'' +
                 ", date='" + date + '\'' +
-                ", alreadyReviewed=" + alreadyReviewed +
                 ", wrongsQuestions=" + wrongsQuestions +
                 '}';
     }

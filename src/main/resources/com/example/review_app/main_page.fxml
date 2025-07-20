@@ -36,7 +36,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.review_app.PagesController.MainPageController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.review_app.pagescontrol.MainPageController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="400.0" prefWidth="161.0" VBox.vgrow="ALWAYS">
       <children>
@@ -60,7 +60,7 @@
 
             <Button fx:id="addObjectsButton" layoutX="25.0" layoutY="188.0" mnemonicParsing="false" onAction="#addSubjectButtonOnClick" prefHeight="42.0" prefWidth="180.0" style="-fx-background-color: #5e0b9e;" text="Add Subjects" textFill="WHITE" />
       
-            <Button fx:id="qAndAButton" layoutX="25.0" layoutY="320.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="180.0" style="-fx-background-color: #5e0b9e;" text="Q&amp;A" textFill="WHITE">
+            <Button onAction="#qAndAButtonOnClick" fx:id="qAndAButton" layoutX="25.0" layoutY="320.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="180.0" style="-fx-background-color: #5e0b9e;" text="Q&amp;A" textFill="WHITE">
                <font>
                   <Font name="Hack Regular" size="13.0" />
                </font>
