@@ -1,4 +1,4 @@
-#Review-APP
+##Review-APP
 
 *Aplicativo para auxiliar na revisão de matérias estudadas.*
 
@@ -13,12 +13,12 @@ Essas perguntas e respostas são geradas pela API do Gemini (por isso há uma ce
 
 Este é um projeto simples para demonstrar conexão com banco de dados (SQLite), uso de Java e JavaFX.
 
-#PRÓXIMAS ADIÇÕES: 
+##PRÓXIMAS ADIÇÕES: 
 
 Barra de XP (para transformar o APP em um jogo) e geração de uma lista com 10 perguntas em vez de apenas uma.
 
 
-#ENGLISH
+##ENGLISH
 
 *An app to help with reviewing studied subjects.*
 
