@@ -40,7 +40,7 @@
 
         @FXML
         public void initialize(){
-            System.out.println(">>> QuestionAndAnswerController.initialize() FOI CHAMADO!"); // LINHA DE DEBUG
+            System.out.println("This method was called");
             this.gson = new Gson();
             this.iaApi = new IaApi();
         }

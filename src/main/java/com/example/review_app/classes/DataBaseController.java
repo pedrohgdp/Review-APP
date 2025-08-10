@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.PriorityQueue;
 
 public class DataBaseController {
-    private final String URL = "jdbc:sqlite:/home/pedrohgdp/Projetos/Review-APP/src/main/resources/DB/DataBase.db";
+    private final String URL = "jdbc:sqlite:src/main/resources/DB/DataBase.db";
     public static PriorityQueue<Subject> priorityQueue = new PriorityQueue<>();
     private LocalDate today = LocalDate.now();
     private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -21,7 +21,6 @@ public class DataBaseController {
             prepSt.setString(1, name);
             prepSt.setString(2, formattedDate);
             prepSt.setInt(3, 0);
-            prepSt.setInt(4, 0);
             //If we only want to execute the update, we don't need to store the result in a variable.
             //But we want store that for add that as a object
             int manyRowsAffected = prepSt.executeUpdate();
@@ -30,7 +29,6 @@ public class DataBaseController {
                 Subject subjectObj = new Subject();
                 subjectObj.setName(name);
                 subjectObj.setDate(formattedDate);
-                subjectObj.setAlreadyReviewed("False");
                 subjectObj.setWrongsQuestions(0);
                 priorityQueue.add(subjectObj);
             }
@@ -77,7 +75,7 @@ public class DataBaseController {
             // We set the values for the '?' placeholders in the prepared statement.
             PreparedStatement prepSt = conn.prepareStatement(sql);
             prepSt.setDouble(1, subject.getWrongsQuestions());
-            prepSt.setString(3, subject.getName());
+            prepSt.setString(2, subject.getName());
             prepSt.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
