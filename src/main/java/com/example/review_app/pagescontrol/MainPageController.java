@@ -132,24 +132,11 @@ public class MainPageController {
         Stage stage = (Stage) qAndAButton.getScene().getWindow();
         Scene scene = new Scene(seeFxml.load(), 700, 700);
         QuestionAndAnswerController controllerQuestionsAndAnswer = seeFxml.getController();
-        controllerQuestionsAndAnswer.loadAnswers(this.subject);
+        controllerQuestionsAndAnswer.initializeQuestionList(this.subject);
 
         stage.setTitle("See Subjects!");
         stage.setScene(scene);
         stage.show();
     }
-
-    public String getNameSubjectMajorNumber() {
-        return nameSubjectMajorNumber;
-    }
-
-    public void setNameSubjectMajorNumber(String nameSubjectMajorNumber) {
-        this.nameSubjectMajorNumber = nameSubjectMajorNumber;
-    }
-
-    //TOMORROW IA API AN SEND THAT TO IA GERANDO UM JSON
-    //VER NO RIO GSON
-
-    
 
 }

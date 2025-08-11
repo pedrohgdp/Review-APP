@@ -5,12 +5,15 @@
     import com.example.review_app.classes.QuestionAndAnswer;
     import com.example.review_app.classes.Subject;
     import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import javafx.animation.PauseTransition;
     import javafx.fxml.FXML;
     import javafx.scene.control.Button;
     import javafx.scene.control.Label;
-    import javafx.scene.text.TextFlow;
+    import java.lang.reflect.Type;
+    import com.google.gson.reflect.TypeToken;
+    import javafx.util.Duration;
 
-    import javax.xml.crypto.Data;
     import java.util.ArrayList;
     import java.util.Collections;
     import java.util.List;
@@ -23,7 +26,11 @@
         private Gson gson;
         private IaApi iaApi;
         private QuestionAndAnswer questionAndAnswer;
-        MainPageController mainPageController;
+        private List<QuestionAndAnswer> questionsList;
+        private int currentQuestion = 0; //Start in the first question
+
+        @FXML
+        Label currentQuestionLabel;
         @FXML
         Label question;
         @FXML
@@ -39,41 +46,64 @@
         // END VARIABLES / OBJECTS
 
         @FXML
-        public void initialize(){
+        public void initialize() {
             System.out.println("This method was called");
             this.gson = new Gson();
             this.iaApi = new IaApi();
         }
 
-        public void loadAnswers(Subject sortedSubject){
-            if (sortedSubject == null || sortedSubject.getName().isEmpty()){
+        public void initializeQuestionList(Subject sortedSubject) {
+            if (sortedSubject == null || sortedSubject.getName().isEmpty()) {
                 System.out.println("None subject sorted");
                 return;
             }
 
-            try{
+            try {
                 //I create a jsonreponse for ia and create the object
                 String jsonResponse = iaApi.getAnswer(sortedSubject.getName());
-                this.questionAndAnswer = gson.fromJson(jsonResponse, QuestionAndAnswer.class);
-                System.out.println("Question: " + questionAndAnswer.getQuestion());
+                // TypeToken saves the full type of the list (e.g., List<MyClass>).
+                // This is needed because the JVM erases this specific type at runtime,
+                // leaving just a plain "List". TypeToken preserves the original type
+                // so that Gson knows exactly what kind of objects to create in the list.
+                Type listType = new TypeToken<List<QuestionAndAnswer>>() {}.getType();
+                this.questionsList = gson.fromJson(jsonResponse, listType);
+
+                //IF THE LIST IS NOT NULL, DISPLAY FIRST QUESTION
+                if (questionsList != null && !questionsList.isEmpty()) {
+                    displayQuestion(sortedSubject, currentQuestion);
+                } else {
+                    question.setText("Unable to send questions.");
+                    disableButtons();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void displayQuestion(Subject sortedSubject, int indexQuestion) {
+            try {
+                System.out.println("Question: " + questionsList.get(indexQuestion).getQuestion());
+                currentQuestionLabel.setText("Current question: " + currentQuestion + 1);
+
+                resetButtons();
 
                 //set the text of the label
-                question.setText(questionAndAnswer.getQuestion());
+                question.setText(questionsList.get(indexQuestion).getQuestion());
 
                 //create a string of the answers
                 List<String> shuffleAnswers = new ArrayList<>();
-                shuffleAnswers.add(questionAndAnswer.getCorrectAnswer());
-                shuffleAnswers.addAll(questionAndAnswer.getIncorrectAnswers());
+                shuffleAnswers.add(questionsList.get(indexQuestion).getCorrectAnswer());
+                shuffleAnswers.addAll(questionsList.get(indexQuestion).getIncorrectAnswers());
                 //shuffle that
                 Collections.shuffle(shuffleAnswers);
                 //create a list of button
                 List<Button> buttonList = List.of(optionOne, optionTwo, optionThree, optionFour, optionFive);
-                for(int i = 0; i < buttonList.size(); i++){ //for every button we put the answer suffled
+                for (int i = 0; i < buttonList.size(); i++) { //for every button we put the answer suffled
                     buttonList.get(i).setText(shuffleAnswers.get(i));
                 }
 
-                for(Button button : buttonList){
-                    if(button.getText().equals(questionAndAnswer.getCorrectAnswer())){
+                for (Button button : buttonList) {
+                    if (button.getText().equals(questionsList.get(currentQuestion).getCorrectAnswer())) {
                         button.setOnMouseClicked(mouseEvent -> {
                             button.setStyle("-fx-background-color: #00FF00");
                             disableButtons();
@@ -81,8 +111,12 @@
                             sortedSubject.setWrongsQuestions(actualWrongsQuestion - 1);
                             DataBaseController dbController = new DataBaseController();
                             dbController.updateSubject(sortedSubject);
+                            //Do a pause before go to next question
+                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                            pause.setOnFinished(actionEvent -> goToNextQuestion(sortedSubject));
+                            pause.play();
                         });
-                    }else{
+                    } else {
                         button.setOnMouseClicked(mouseEvent -> {
                             button.setStyle("-fx-background-color: #FF0000");
                             disableButtons();
@@ -90,17 +124,40 @@
                             sortedSubject.setWrongsQuestions(actualWrongsQuestion + 1);
                             DataBaseController dbController = new DataBaseController();
                             dbController.updateSubject(sortedSubject);
+                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                            pause.setOnFinished(actionEvent -> goToNextQuestion(sortedSubject));
+                            pause.play();
                         });
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
 
+        public void goToNextQuestion(Subject sortedSubject){
+            currentQuestion++;
+
+            if(currentQuestion < questionsList.size()){
+                displayQuestion(sortedSubject, currentQuestion);
+            }else{
+                question.setText("Dont have more question");
+                disableButtons();
+            }
+        }
+
+
+
         private void disableButtons() {
             List.of(optionOne, optionTwo, optionThree, optionFour, optionFive).forEach(btn -> btn.setDisable(true));
         }
 
+        private void resetButtons() {
+            List.of(optionOne, optionTwo, optionThree, optionFour, optionFive).forEach(btn -> {
+                btn.setDisable(false);
+                btn.setStyle(null); // Reseta o estilo para o padrão do CSS
+            });
+        }
     }
+
